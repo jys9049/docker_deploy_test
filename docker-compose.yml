@@ -2,24 +2,25 @@ version: "3.9"
 
 services:
   web:
-    image: docker_deploy_test_web # 이미 빌드된 이미지 이름
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: hab-app
-    restart: always
-    ports:
-      - "3000:3000"
     environment:
-      NODE_ENV: production
-    command: ["node", "server.js"] # 서버 실행 명령어
+      - NODE_ENV=production
+    expose:
+      - "3000"
 
   nginx:
     image: nginx:latest
     container_name: nginx-proxy
-    restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./certbot/live/docker.jeongyongseong.kr/fullchain.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:ro
+      - ./certbot/live/docker.jeongyongseong.kr/privkey.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:ro
+      - ./app/.next/standalone/.next/static:/app/.next/standalone/.next/static:ro
     depends_on:
       - web
