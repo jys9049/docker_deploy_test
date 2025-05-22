@@ -24,7 +24,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - /etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:ro
       - /etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:ro
-      - next-static:/usr/share/nginx/html/_next/static
+      - next-static:/app/.next/static:ro
     depends_on:
       - web
     restart: unless-stopped
@@ -33,10 +33,7 @@ services:
 
 volumes:
   next-static:
-    driver_opts:
-      type: none
-      device: ${PWD}/.next/static
-      o: bind
+
 networks:
   app-network:
     driver: bridge
