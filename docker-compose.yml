@@ -17,10 +17,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    volumes:
+   volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certbot/live/docker.jeongyongseong.kr/fullchain.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:ro
-      - ./certbot/live/docker.jeongyongseong.kr/privkey.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:ro
+      # 인증서 마운트: 절대경로 사용
+      - /etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:ro
+      - /etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:ro
+      # 정적 파일
       - ./app/.next/standalone/.next/static:/app/.next/standalone/.next/static:ro
     depends_on:
       - web
