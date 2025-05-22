@@ -1,13 +1,20 @@
-FROM node:20-alpine
-
+# 1단계: 의존성 설치 및 빌드
+FROM node:20-alpine AS builder
 WORKDIR /app
-
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
+RUN npm run build
 
-CMD [ "npm", "start" ]
+# 2단계: 실제 서비스용 경량 이미지
+FROM node:18-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV production
+
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 EXPOSE 3000
+CMD ["npm", "start"]
