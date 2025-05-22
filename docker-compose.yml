@@ -21,6 +21,5 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - /etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:ro
       - /etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:ro
-      - ./app/.next/standalone/.next/static:/app/.next/standalone/.next/static:ro
     depends_on:
       - web
