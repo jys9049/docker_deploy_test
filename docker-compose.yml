@@ -2,21 +2,19 @@ version: "3.9"
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: docker_deploy_test_web # 이미 빌드된 이미지 이름
     container_name: hab-app
     restart: always
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: production
-    volumes:
-      - .:/app
+    command: ["node", "server.js"] # 서버 실행 명령어
 
   nginx:
     image: nginx:latest
     container_name: nginx-proxy
+    restart: always
     ports:
       - "80:80"
       - "443:443"
