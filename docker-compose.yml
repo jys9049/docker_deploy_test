@@ -10,6 +10,8 @@ services:
       - NODE_ENV=production
     expose:
       - "3000"
+    volumes:
+      - next-static:/app/.next/static
     restart: unless-stopped
     networks:
       - app-network
