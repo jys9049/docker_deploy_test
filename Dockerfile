@@ -3,9 +3,10 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm cache clean --force && npm install
+RUN npm install
 
 COPY . .
+RUN rm -rf .next
 RUN npm run build
 
 # 2단계: 런타임 (경량)
