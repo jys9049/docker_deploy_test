@@ -13,8 +13,6 @@ services:
       NODE_ENV: production
     volumes:
       - .:/app
-    depends_on:
-      - nginx
 
   nginx:
     image: nginx:latest
