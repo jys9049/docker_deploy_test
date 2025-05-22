@@ -8,6 +8,8 @@ services:
     container_name: hab-app
     environment:
       - NODE_ENV=production
+    volumes:
+      - next-static:/app/.next/static # ✅ 정적 파일 공유 볼륨 추가
     expose:
       - "3000"
 
@@ -21,5 +23,9 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - /etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/fullchain.pem:ro
       - /etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:/etc/letsencrypt/live/docker.jeongyongseong.kr/privkey.pem:ro
+      - next-static:/app/.next/static # ✅ Nginx에서도 동일하게 연결
     depends_on:
       - web
+
+volumes:
+  next-static:
