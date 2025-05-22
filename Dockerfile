@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # 2단계: 실제 서비스용 경량 이미지
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
 
