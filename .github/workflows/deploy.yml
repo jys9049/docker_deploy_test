@@ -24,7 +24,6 @@ jobs:
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
           ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
           NEXT_PUBLIC_TEST_KEY: ${{ secrets.NEXT_PUBLIC_TEST_KEY }}
-          TEST_KEY: ${{ secrets.TEST_KEY }}
         run: |
           echo "Setting up SSH known_hosts"
           mkdir -p ~/.ssh
@@ -44,7 +43,7 @@ jobs:
             
             echo "Creating/Updating .env file for runtime..."
             echo "${{ env.ENV_FILE_CONTENT }}" > app.env 
-            echo "${{ env.TEST_KEY }}" > app.env
+            echo "TEST_KEY=${{ secrets.TEST_KEY }}" > app.env
             
             echo "Building Docker images (web service specifically)..."
 
