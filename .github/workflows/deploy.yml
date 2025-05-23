@@ -25,7 +25,7 @@ jobs:
           ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
           NEXT_PUBLIC_TEST_KEY: ${{ secrets.NEXT_PUBLIC_TEST_KEY }}
           TEST_KEY: ${{ secrets.TEST_KEY }}
-        run: |         
+        run: |
           echo "Setting up SSH known_hosts"
           mkdir -p ~/.ssh
           ssh-keyscan -H "${{ env.EC2_HOST }}" >> ~/.ssh/known_hosts
@@ -45,9 +45,9 @@ jobs:
             echo "${{ env.TEST_KEY }}" > app.env
             
             echo "Building Docker images (web service specifically)..."
-          
+
             sudo docker-compose build --no-cache \
-              --build-arg NEXT_PUBLIC_TEST_KEY="${{secrets.NEXT_PUBLIC_TEST_KEY}}" \
+              --build-arg BUILD_ARG_NEXT_PUBLIC_API_URL="${{secrets.NEXT_PUBLIC_TEST_KEY}}" \
             web
             
             echo "Stopping and recreating services..."

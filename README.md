@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### docker_deploy_test
 
-## Getting Started
+##### 해당 프로젝트는 EC2 + Docker + nginx 를 사용하여 배포를 테스트 하기 위한 프로젝트이며 아래 스터디한 내용을 정리
 
-First, run the development server:
+1.  AWS EC2 인스턴스 생성 후 받은 키페어로 우분투 콘솔로 진입
+2.  필요한 리소스 다운로드
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    - 필수 패키지 설치
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+      ```
+      sudo apt-get update
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+      sudo apt-get install -y ca-certificates     curl gnupg lsb-release
+      ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    - Docker 공식 GPG 키 추가
 
-## Learn More
+      ```
+      sudo mkdir -p /etc/apt/keyrings
 
-To learn more about Next.js, take a look at the following resources:
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    - Docker 저장소 설정
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+      ```
+      echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      ```
 
-## Deploy on Vercel
+    - Docker Engine 설치
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+      ```
+      sudo apt-get update
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+      ```
+
+    - Docker 서비스 시작 및 활성화
+
+      ```
+      sudo systemctl start docker
+
+      sudo systemctl enable docker
+      ```
+
+    - Docker 명령어 테스트
+
+      ```
+      sudo docker ps
+
+      (CONTAINER ID, IMAGE, COMMAND가 보인다면 설치 성공)
+      ```
+
+    - git clone (생략)
+
+    - SSL 인증서 (https)
+
+      ```
+      sudo certbot certonly --standalone -d <도메인>
+      ```
+
+    - Docker 이미지 빌드
+
+      ```
+      sudo docker compose build --no-cache web (docker compose에 설정한 값)
+      ```
+
+    - Docker Compose로 서비스 실행
+
+      ```
+      sudo docker-compose up -d
+      ```
+
+    - Docker 컨테이너 확인
+
+      ```
+      sudo docker-compose ps
+      ```

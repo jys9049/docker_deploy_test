@@ -3,6 +3,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log(process.env.TEST_KEY ?? "no server test key");
+
   return (
     <html lang="ko">
       <body>
