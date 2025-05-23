@@ -31,8 +31,8 @@ jobs:
           ssh-keyscan -H "${{ env.EC2_HOST }}" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts # 권한 문제 방지
 
-          echo "Executing deployment script on EC2..." << 'EOF'
-          ssh -T ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}
+          echo "Executing deployment script on EC2..." 
+          ssh -T ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} << 'EOF'
             set -e
 
             echo "Connected to EC2 instance: ${{ env.EC2_HOST }}"
