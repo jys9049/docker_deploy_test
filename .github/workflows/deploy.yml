@@ -43,12 +43,12 @@ jobs:
             
             echo "Creating/Updating .env file for runtime..."
             echo "${{ env.ENV_FILE_CONTENT }}" > app.env 
-            echo "TEST_KEY=${{ secrets.TEST_KEY }}" > app.env
+            echo "TEST_KEY=${{ secrets.TEST_KEY }}" >> app.env
             
             echo "Building Docker images (web service specifically)..."
 
             sudo docker compose build --no-cache \
-              --build-arg BUILD_ARG_NEXT_PUBLIC_API_URL="${{secrets.NEXT_PUBLIC_TEST_KEY}}" \
+              --build-arg BUILD_ARG_NEXT_PUBLIC_TEST_KEY="${{secrets.NEXT_PUBLIC_TEST_KEY}}" \
             web
             
             echo "Stopping and recreating services..."
