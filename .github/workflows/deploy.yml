@@ -35,7 +35,7 @@ jobs:
           ssh -T ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }}
             echo "Connected to EC2 instance: ${{ env.EC2_HOST }}"
             
-            cd ~/docker_deploy_test 
+            cd docker_deploy_test 
             
             echo "Pulling latest code from Git..."
             git pull origin main
