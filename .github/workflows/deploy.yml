@@ -23,6 +23,7 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
           ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
+          TEST_KEY: ${{ secrets.TEST_KEY }}
           NEXT_PUBLIC_TEST_KEY: ${{ secrets.NEXT_PUBLIC_TEST_KEY }}
         run: |
           echo "Setting up SSH known_hosts"
@@ -43,12 +44,12 @@ jobs:
             
             echo "Creating/Updating .env file for runtime..."
             echo "${{ env.ENV_FILE_CONTENT }}" > app.env 
-            echo "TEST_KEY=${{ secrets.TEST_KEY }}" >> app.env
+            echo "TEST_KEY=${{ env.TEST_KEY }}" >> app.env
             
             echo "Building Docker images (web service specifically)..."
 
             sudo docker compose build --no-cache \
-              --build-arg BUILD_ARG_NEXT_PUBLIC_TEST_KEY="${{secrets.NEXT_PUBLIC_TEST_KEY}}" \
+              --build-arg BUILD_ARG_NEXT_PUBLIC_TEST_KEY="${{env.NEXT_PUBLIC_TEST_KEY}}" \
             web
             
             echo "Stopping and recreating services..."
