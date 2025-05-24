@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hab-app
+    container_name: docker_test
     environment:
       - NODE_ENV=production
     expose:
